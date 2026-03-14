@@ -18,7 +18,9 @@ library(plotly)
 library(dplyr)
 library(lubridate)
 library(readr)
+library(rsconnect)
 
+rsconnect::writeManifest()
 # ---------------- DATA ----------------
 csv_path <- "data/raw/ncr_ride_bookings.csv"
 uber <- read_csv(csv_path)
