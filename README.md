@@ -45,7 +45,7 @@ library(shiny)
 runApp("app.R", launch.browser = TRUE)
 ```
 
-#### To run the appl from your terminal (here we explained windows): 
+#### To run the shiny app from your terminal (here we explained windows): 
 Navigate to the project folder:
 ```bash
 Rscript -e "shiny::runApp('app.R', launch.browser=TRUE)"
