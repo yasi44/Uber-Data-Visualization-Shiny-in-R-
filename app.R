@@ -1,18 +1,3 @@
----
-title: "DSCI 532 individual Assignment"
-subtitle: Introduction to `Stan` and Bayes' Rule
-output:
-  pdf_document:
-    toc: true
-    toc_depth: '4'
-    latex_engine: xelatex 
-  html_document:
-    toc: true
-    toc_depth: '4'
-    df_print: paged
----
-
-```{r}
 library(shiny)
 library(plotly)
 library(dplyr)
@@ -57,47 +42,47 @@ shiny_human_format <- function(num) {
 ui <- fluidPage(
   tabsetPanel(
     tabPanel("Original Dashboard",
-      sidebarLayout(
-        sidebarPanel(
-          sliderInput(
-            "slider",
-            "Date range",
-            min = min(uber$Date),
-            max = max(uber$Date),
-            value = c(min(uber$Date), max(uber$Date))
-          ),
-          actionButton("reset_btn", "Reset Filters")
-        ),
-        mainPanel(
-          fluidRow(
-            column(4,
-              wellPanel(
-                h5("Total Bookings"),
-                textOutput("total_bookings")
-              )
-            ),
-            column(4,
-              wellPanel(
-                h5("Canceled Bookings"),
-                textOutput("canceled_bookings")
-              )
-            )
-          ),
-          fluidRow(
-            column(12,
-              plotlyOutput("pie_chart", height = "335px"),
-              plotlyOutput("line_chart", height = "300px"),
-            )
-          )
-        )
-      )
+             sidebarLayout(
+               sidebarPanel(
+                 sliderInput(
+                   "slider",
+                   "Date range",
+                   min = min(uber$Date),
+                   max = max(uber$Date),
+                   value = c(min(uber$Date), max(uber$Date))
+                 ),
+                 actionButton("reset_btn", "Reset Filters")
+               ),
+               mainPanel(
+                 fluidRow(
+                   column(4,
+                          wellPanel(
+                            h5("Total Bookings"),
+                            textOutput("total_bookings")
+                          )
+                   ),
+                   column(4,
+                          wellPanel(
+                            h5("Canceled Bookings"),
+                            textOutput("canceled_bookings")
+                          )
+                   )
+                 ),
+                 fluidRow(
+                   column(12,
+                          plotlyOutput("pie_chart", height = "335px"),
+                          plotlyOutput("line_chart", height = "300px"),
+                   )
+                 )
+               )
+             )
     )
   )
 )
 
 # ---------------- SERVER ----------------
 server <- function(input, output, session) {
-
+  
   # ---------------- FILTERED DATA ----------------
   filtered_data <- reactive({
     df <- uber %>% filter(Date >= input$slider[1] & Date <= input$slider[2])
@@ -107,31 +92,31 @@ server <- function(input, output, session) {
     }
     df
   })
-
+  
   # ---------------- RESET FILTERS ----------------
   observeEvent(input$reset_btn, {
     updateSliderInput(session, "slider", value = c(min(uber$Date), max(uber$Date)))
     updateSelectInput(session, "vehicle_type", selected = "All")
   })
-
+  
   # ---------------- KPI VALUES ----------------
   output$total_bookings <- renderText({
     shiny_human_format(nrow(filtered_data()))
   })
-
+  
   output$total_revenue <- renderText({
     shiny_human_format(sum(filtered_data()$Booking_Value, na.rm = TRUE))
   })
-
+  
   output$canceled_bookings <- renderText({
     df <- filtered_data()
     count <- sum(df$Cancelled_Rides_by_Driver == 1, na.rm = TRUE) +
-             sum(df$Cancelled_Rides_by_Customer == 1, na.rm = TRUE)
+      sum(df$Cancelled_Rides_by_Customer == 1, na.rm = TRUE)
     shiny_human_format(count)
   })
-
+  
   # ---------------- CHARTS ----------------
-
+  
   output$line_chart <- renderPlotly({
     df <- filtered_data() %>%
       group_by(Date) %>%
@@ -139,7 +124,7 @@ server <- function(input, output, session) {
     
     plot_ly(df, x = ~Date, y = ~total_value, type = "scatter", mode = "lines+markers")
   })
-
+  
   output$pie_chart <- renderPlotly({
     df <- uber %>% filter(Date >= input$slider[1] & Date <= input$slider[2])
     df_agg <- df %>%
@@ -148,12 +133,12 @@ server <- function(input, output, session) {
     
     plot_ly(df_agg, labels = ~Vehicle_Type, values = ~total_value, type = "pie", textinfo = "label+percent")
   })
-
+  
   # ---------------- AI Dashboard placeholders ----------------
   output$qc_data_table <- renderTable({
     filtered_data()  # replace with AI filtered data in Python
   })
-
+  
   output$qc_pie_chart <- renderPlotly({
     df <- filtered_data()
     df_agg <- df %>%
@@ -162,7 +147,7 @@ server <- function(input, output, session) {
     
     plot_ly(df_agg, labels = ~Vehicle_Type, values = ~total_value, type = "pie", textinfo = "label+percent")
   })
-
+  
   output$qc_line_chart <- renderPlotly({
     df <- filtered_data() %>%
       group_by(Date) %>%
@@ -170,7 +155,7 @@ server <- function(input, output, session) {
     
     plot_ly(df, x = ~Date, y = ~total_value, type = "scatter", mode = "lines+markers")
   })
-
+  
   output$download_data <- downloadHandler(
     filename = function() { "uber_filtered_data.csv" },
     content = function(file) {
@@ -181,5 +166,3 @@ server <- function(input, output, session) {
 
 # ---------------- RUN APP ----------------
 shinyApp(ui = ui, server = server)
-
-```
