@@ -27,6 +27,7 @@ Open R or RStudio and run:
 ```bash
 install.packages(c(
   "shiny",
+  "rsconnect",
   "plotly",
   "dplyr",
   "lubridate",
