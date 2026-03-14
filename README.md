@@ -1,5 +1,5 @@
-# Uber-Data-Visualization-Shiny-in-R-
-Uber Data Visualization(Shiny in R)
+# Uber Data Visualization(Shiny in R)
+
 
 # DSCI-532_2026_32: Uber Dashboard Project Individual Assignment
 
