@@ -47,7 +47,4 @@ Deployment
 
 The dashboard is deployed on Posit Cloud, and users can interact with it without needing to run it locally.
 
-Preview build version: https://019cca41-6593-d698-f198-826bf5222992.share.connect.posit.cloud/
-
-Stable build version: https://019cca3c-2682-2efd-8947-1fd5caf109bc.share.connect.posit.cloud/
-
+[Click here to see the demo](https://019cee63-04f2-45c1-efa3-88a007e5dca0.share.connect.posit.cloud/)
