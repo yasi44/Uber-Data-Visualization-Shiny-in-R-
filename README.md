@@ -17,7 +17,7 @@ This project demonstrates the full data workflow: data cleaning, exploratory dat
 
 2. **Clone the fork locally**:
 ```bash
-git clone https://github.com/YOUR_USERNAME/DSCI-532_2026_32_Uber_dashboard.git
+git clone https://github.com/yasi44/DSCI-532_2026_32_Uber_dashboard.git
 cd DSCI-532_2026_32_Uber_dashboard
 ```
 
